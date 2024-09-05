@@ -1,0 +1,42 @@
+SQL Queries
+
+1. List all books available in the store:
+
+SELECT Books.title, Authors.name AS author, Categories.category_name, Books.price, Books.stock
+FROM Books
+JOIN Authors ON Books.author_id = Authors.author_id
+JOIN Categories ON Books.category_id = Categories.category_id;
+
+2. Get the total sales of a specific book:
+
+SELECT Books.title, SUM(Order_Items.quantity) AS total_sold
+FROM Order_Items
+JOIN Books ON Order_Items.book_id = Books.book_id
+WHERE Books.book_id = 1
+GROUP BY Books.title;
+
+3. Find the most popular book (based on total quantity sold):
+
+SELECT Books.title, SUM(Order_Items.quantity) AS total_sold
+FROM Order_Items
+JOIN Books ON Order_Items.book_id = Books.book_id
+GROUP BY Books.title
+ORDER BY total_sold DESC
+LIMIT 1;
+
+4. Get the details of all orders for a specific customer:
+
+SELECT Orders.order_id, Orders.order_date, Orders.total_amount, Orders.status
+FROM Orders
+WHERE Orders.customer_id = 1;
+
+5. Show all reviews for a specific book:
+
+SELECT Customers.name, Reviews.rating, Reviews.review_text, Reviews.review_date
+FROM Reviews
+JOIN Customers ON Reviews.customer_id = Customers.customer_id
+WHERE Reviews.book_id = 1;
+
+6. Get the total revenue for the store:
+
+SELECT SUM(total_amount) AS total_revenue FROM Orders WHERE status = 'Completed';
